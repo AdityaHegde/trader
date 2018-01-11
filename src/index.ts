@@ -10,10 +10,10 @@ const Helpers = require("./Helpers");
 let usdPayment;
 let usdAccount;
 let btcAccount;
-let bthAccount;
+let bchAccount;
 
 let btcAlgo;
-let bthAlgo;
+let bchAlgo;
 
 async function init() {
   await CoinbaseResources.init();
@@ -44,10 +44,10 @@ async function init() {
       currency: "BTC"
     }
   });
-  bthAccount = _.find(accounts, {
+  bchAccount = _.find(accounts, {
     __data: {
       type: "wallet",
-      currency: "BTH"
+      currency: "BCH"
     }
   });
 
@@ -68,7 +68,7 @@ async function init() {
     paymentMethod: usdPayment,
     paymentAccount: usdAccount,
   });
-  bthAlgo = await SimpleProfitTarget.new({
+  bchAlgo = await SimpleProfitTarget.new({
     maxBuyPercentage: 10,
     minBuyPercentage: 0,
     buyPercentageDecrementAmout: 2,
@@ -81,7 +81,7 @@ async function init() {
     profitDecrementAmout: 2,
     profitDecrementInterval: 24 * 60,
 
-    account: bthAccount,
+    account: bchAccount,
     paymentMethod: usdPayment,
     paymentAccount: usdAccount,
   });
@@ -89,15 +89,15 @@ async function init() {
 
 async function iteration() {
   btcAlgo.run();
-  bthAlgo.run();
-
-  setTimeout(iteration, 1000);
+  bchAlgo.run();
 }
 
 async function run() {
   await init();
 
-  setTimeout(iteration, 1000);
+  setInterval(iteration, 1000);
+
+  // mongoose.disconnect();
 }
 
 run().then(() => {

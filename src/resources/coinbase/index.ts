@@ -6,7 +6,7 @@ const CoinbaseApi = require("../../apis/CoinbaseApi");
 
 let CoinbaseResources = {
   async init() {
-    let coinbaseApi = await CoinbaseApi.new({
+    let coinbaseApi = await CoinbaseApi.findOneOrCreate({
       apiBase: "https://api.coinbase.com/",
       apiVersion: "2017-08-07",
       signatureDigest: "hex"

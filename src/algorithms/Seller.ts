@@ -37,13 +37,13 @@ class Seller extends Base {
     return super.updateData(sellerData);
   }
 
-  async run(lastBuy) {
+  async run(lastBuyTransaction) {
     let sellPrice = await CoinbaseResources.Price.getSellPrice(this.account, this.paymentMethod);
-    let profit = lastBuy.native_amount * (1 + this.profit / 100);
-
-    // console.log(sellPrice.amount, lastBuy.native_amount, profit, this.profit, new Date().getTime());
+    let lastCurrencyPrice = lastBuyTransaction.native_amount / lastBuyTransaction.amount;
+    let profit = lastCurrencyPrice * (1 + this.profit / 100);
 
     if (sellPrice.amount >= profit) {
+      console.log(`Can sell ${this.account.currency} currently at ${sellPrice.amount} for a ${profit}% profit`);
       return true;
     } else {
       let curTime = new Date().getTime();
@@ -59,15 +59,29 @@ class Seller extends Base {
     }
   }
 
-  async sell() {
-    let sellOrder = await this.account.sell(
-      this.account.balance,
-      this.paymentMethod,
-      false
-    );
+  getSellAmount() {
+    let sellAmount = this.account.balance;
+    if (this.paymentMethod.sell_limit && this.paymentMethod.sell_limit.remaining < sellAmount) {
+      // sellAmount = this.paymentMethod.sell_limit.remaining;
+      return -1;
+    }
+    return sellAmount;
+  }
 
-    await sellOrder.commit();
-    this.resetSell();
+  async sell() {
+    let sellAmount = this.getSellAmount();
+    if (sellAmount > 0) {
+      console.log(`Selling ${sellAmount} ${this.account.currency}`);
+      // let sellOrder = await this.account.sell(
+      //   sellAmount,
+      //   this.paymentMethod,
+      //   false
+      // );
+      console.log(sellOrder);
+
+      // await sellOrder.commit();
+      // this.resetSell();
+    }
   }
 
   resetSell() {

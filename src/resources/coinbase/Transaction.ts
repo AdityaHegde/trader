@@ -17,14 +17,14 @@ class Transaction extends CoinbaseResource {
   @Decorators.number()
   native_amount;
 
-  @Decorators.string()
-  description;
+  // @Decorators.string()
+  // description;
 
   @Decorators.boolean()
   instant_exchange;
 
-  @Decorators.string()
-  details;
+  // @Decorators.string()
+  // details;
 
   @Decorators.string()
   network;
@@ -53,9 +53,9 @@ class Transaction extends CoinbaseResource {
     this.status = transactionData.status;
     this.amount = Number(transactionData.amount.amount);
     this.native_amount = Number(transactionData.native_amount.amount);
-    this.description = transactionData.description;
+    // this.description = transactionData.description;
     this.instant_exchange = transactionData.instant_exchange;
-    this.details = transactionData.details;
+    // this.details = transactionData.details;
     this.network = transactionData.network;
 
     this.to = transactionData.to && transactionData.to.id;

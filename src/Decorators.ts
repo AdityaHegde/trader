@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const Types = mongoose.Schema.Types;
+const _ = require("lodash");
 
 class Decorators {
   static model(modelName) {
     return function(classObject) {
+      if (!classObject.prototype.hasOwnProperty("__schema")) {
+        classObject.prototype.__schema = _.cloneDeep(classObject.prototype.__schema || {});
+      }
       classObject.prototype.__schema = classObject.prototype.__schema || {};
       classObject.__mongooseModel = classObject.prototype.__mongooseModel = mongoose.model(modelName, mongoose.Schema(classObject.prototype.__schema));
     }
@@ -11,7 +15,9 @@ class Decorators {
 
   static string(fieldType = String, transform = function (value) { return value }) {
     return function(classPrototype, fieldName, descriptor) {
-      classPrototype.__schema = classPrototype.__schema || {};
+      if (!classPrototype.hasOwnProperty("__schema")) {
+        classPrototype.__schema = _.cloneDeep(classPrototype.__schema || {});
+      }
       classPrototype.__schema[fieldName] = fieldType;
 
       if (descriptor) {

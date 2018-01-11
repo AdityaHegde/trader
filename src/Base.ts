@@ -22,7 +22,7 @@ class Base {
     if (this.__mongooseModel) {
       this.__mongooseInstance = await this.__mongooseModel.findOneAndUpdate({ id: this.id }, this.__data, { new: true, upsert: true });
       _.forIn(this.__schema, (type, field) => {
-        if (type !== mongoose.Schema.Types.ObjectId) {
+        if (type !== mongoose.Schema.Types.ObjectId && field in this.__mongooseInstance) {
           this.__data[field] = this.__mongooseInstance[field];
           this.__cache[field] = this.__mongooseInstance[field];
         }
@@ -34,6 +34,15 @@ class Base {
     let instance = new this(data);
     await instance.updateData(data);
     return instance;
+  }
+
+  static async findOneOrCreate(data) {
+    let doc = await this.__mongooseModel.findOne(data);
+    if (!doc) {
+      return this.new(data);
+    } else {
+      return this.new(doc);
+    }
   }
 
   static remove(query) {

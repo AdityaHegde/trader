@@ -72,21 +72,26 @@ class Buyer extends Base {
 
   getSpendAmount() {
     let spendAmout = this.spendAmout === -1 ? this.paymentAccount.balance : this.spendAmout;
-    if (this.paymentMethod.buy_limit.remaining < spendAmout) {
-      spendAmout = this.paymentMethod.buy_limit.remaining;
+    if (this.paymentMethod.buy_limit && this.paymentMethod.buy_limit.remaining < spendAmout) {
+      // spendAmout = this.paymentMethod.buy_limit.remaining;
+      return -1;
     }
     return spendAmout;
   }
 
   async buy() {
-    let buyOrder = await this.account.buyWith(
-      this.getSpendAmount(),
-      this.paymentMethod,
-      false
-    );
+    let spendAmout = his.getSpendAmount();
+    if (spendAmout > 0) {
+      console.log(`Buying ${this.account.currency} at ${spendAmout}`);
+      let buyOrder = await this.account.buyWith(
+        this.getSpendAmount(),
+        this.paymentMethod,
+        false
+      );
 
-    await buyOrder.commit();
-    this.resetBuy();
+      await buyOrder.commit();
+      this.resetBuy();
+    }
   }
 
   resetBuy() {

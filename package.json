@@ -1,6 +1,6 @@
 {
   "name": "trader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automated Trader",
   "main": "index.js",
   "scripts": {

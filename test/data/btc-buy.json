@@ -1,0 +1,37 @@
+{
+  "id": "test-buy",
+  "status": "created",
+  "payment_method": {
+    "id": "test-usd-payment",
+    "resource": "payment_method",
+    "resource_path": "/v2/payment-methods/test-usd-payment"
+  },
+  "transaction": {
+    "id": "test-buy-transaction",
+    "resource": "transaction",
+    "resource_path": "/v2/accounts/test-account/transactions/test-buy-transaction"
+  },
+  "amount": {
+    "amount": "10.00000000",
+    "currency": "BTC"
+  },
+  "total": {
+    "amount": "102.01",
+    "currency": "USD"
+  },
+  "subtotal": {
+    "amount": "101.00",
+    "currency": "USD"
+  },
+  "created_at": "2015-04-01T18:43:37-07:00",
+  "updated_at": "2015-04-01T18:43:37-07:00",
+  "resource": "buy",
+  "resource_path": "/v2/accounts/test-account/buys/test-buy",
+  "committed": false,
+  "instant": false,
+  "fee": {
+    "amount": "1.01",
+    "currency": "USD"
+  },
+  "payout_at": "2015-04-07T18:43:37-07:00"
+}

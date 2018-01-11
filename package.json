@@ -1,0 +1,28 @@
+{
+  "name": "trader",
+  "version": "0.1.0",
+  "description": "Automated Trader",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aditya Hegde",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "lodash": "^4.17.4",
+    "mongoose": "^5.0.0-rc2",
+    "prompt": "^1.0.0",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^5.0.0",
+    "gulp-typescript": "^3.2.3",
+    "mockery": "^2.1.0",
+    "should": "^13.2.0",
+    "sinon": "^4.1.4",
+    "typescript": "^2.6.2"
+  }
+}

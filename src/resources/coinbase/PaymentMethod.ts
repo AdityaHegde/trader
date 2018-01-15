@@ -1,54 +1,54 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const CoinbaseResource = require("./CoinbaseResource");
 const Base = require("../../Base")
 
-@Decorators.resource("payment_method")
-@Decorators.resource_path("/v2/payment-methods")
-@Decorators.model("CoinbasePaymentMethod")
+@CoinbaseResource.resource("payment_method")
+@CoinbaseResource.resource_path("/v2/payment-methods")
+@MongooseDecorators.model("CoinbasePaymentMethod")
 class PaymentMethod extends CoinbaseResource {
-  @Decorators.string()
+  @MongooseDecorators.string()
   type;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   name;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   currency;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   buy_limit;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   sell_limit;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   instant_buy_limit;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   instant_sell_limit;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   deposit_limit;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   withdraw_limit;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   primary_buy;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   primary_sell;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   allow_buy;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   allow_sell;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   instant_buy;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   instant_sell;
 
 
@@ -85,18 +85,18 @@ class PaymentMethod extends CoinbaseResource {
   }
 }
 
-@Decorators.model("CoinbasePaymentLimit")
+@MongooseDecorators.model("CoinbasePaymentLimit")
 class PaymentLimit extends Base {
-  @Decorators.string()
+  @MongooseDecorators.string()
   type;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   period_in_days;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   total;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   remaining;
 
 

@@ -13,11 +13,11 @@
   "created_at": "2015-03-11T13:13:35-07:00",
   "updated_at": "2015-03-26T15:55:43-07:00",
   "resource": "transaction",
-  "resource_path": "/v2/accounts/test-account/transactions/test-buy-transaction",
+  "resource_path": "/v2/accounts/test-btc-account/transactions/test-buy-transaction",
   "buy": {
     "id": "test-buy",
     "resource": "buy",
-    "resource_path": "/v2/accounts/test-account/buys/test-buy"
+    "resource_path": "/v2/accounts/test-btc-account/buys/test-buy"
   },
   "instant_exchange": false
 }

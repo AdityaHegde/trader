@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Types = mongoose.Schema.Types;
 const _ = require("lodash");
 
-class Decorators {
+class MongooseDecorators {
   static model(modelName) {
     return function(classObject) {
       if (!classObject.prototype.hasOwnProperty("__schema")) {
@@ -10,6 +10,7 @@ class Decorators {
       }
       classObject.prototype.__schema = classObject.prototype.__schema || {};
       classObject.__mongooseModel = classObject.prototype.__mongooseModel = mongoose.model(modelName, mongoose.Schema(classObject.prototype.__schema));
+      classObject.__mongooseModelName = modelName;
     }
   }
 
@@ -65,18 +66,6 @@ class Decorators {
   static mixed() {
     return this.string(Types.Mixed);
   }
-
-  static resource(resourceName) {
-    return function(classObject) {
-      classObject.resource = resourceName;
-    }
-  }
-
-  static resource_path(resourcePathName) {
-    return function(classObject) {
-      classObject.resource_path = resourcePathName;
-    }
-  }
 }
 
-module.exports = Decorators;
+module.exports = MongooseDecorators;

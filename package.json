@@ -1,6 +1,6 @@
 {
   "name": "trader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Automated Trader",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,12 @@
   "author": "Aditya Hegde",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.2",
     "glob": "^7.1.2",
     "lodash": "^4.17.4",
     "mongoose": "^5.0.0-rc2",
+    "passport": "^0.4.0",
+    "passport-local-mongoose": "^4.4.0",
     "prompt": "^1.0.0",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"

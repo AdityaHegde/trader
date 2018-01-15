@@ -1,11 +1,11 @@
 const Base = require("../Base");
-const Decorators = require("../Decorators");
+const MongooseDecorators = require("../decorators/Mongoose");
 const request = require("request-promise-native");
 const _ = require("lodash");
 
-@Decorators.model("Api")
+@MongooseDecorators.model("Api")
 class Api extends Base {
-  @Decorators.string()
+  @MongooseDecorators.string()
   apiBase;
 
   updateData(apiOptions) {

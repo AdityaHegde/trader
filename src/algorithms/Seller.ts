@@ -1,27 +1,29 @@
-const Decorators = require("../Decorators");
+const MongooseDecorators = require("../decorators/Mongoose");
 const Base = require("../Base");
 const CoinbaseResources = require("../resources/coinbase");
 
-@Decorators.model("Seller")
+@MongooseDecorators.model("Seller")
 class Seller extends Base {
-  @Decorators.number()
+  @MongooseDecorators.number()
   maxProfit;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   minProfit;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   profitDecrementAmout;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   profitDecrementInterval;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   account;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   paymentMethod;
 
+  @MongooseDecorators.objectId()
+  paymentAccount;
 
   updateData(sellerData) {
     this.id = "seller_" + sellerData.account.id + "_" + sellerData.paymentMethod.id;
@@ -33,6 +35,7 @@ class Seller extends Base {
 
     this.account = sellerData.account;
     this.paymentMethod = sellerData.paymentMethod;
+    this.paymentAccount = sellerData.paymentAccount;
 
     return super.updateData(sellerData);
   }
@@ -42,8 +45,9 @@ class Seller extends Base {
     let lastCurrencyPrice = lastBuyTransaction.native_amount / lastBuyTransaction.amount;
     let profit = lastCurrencyPrice * (1 + this.profit / 100);
 
+    console.log(`Looking to sell ${this.account.currency} currently at ${sellPrice.amount} for ${profit}`);
+
     if (sellPrice.amount >= profit) {
-      console.log(`Can sell ${this.account.currency} currently at ${sellPrice.amount} for a ${profit}% profit`);
       return true;
     } else {
       let curTime = new Date().getTime();
@@ -72,15 +76,16 @@ class Seller extends Base {
     let sellAmount = this.getSellAmount();
     if (sellAmount > 0) {
       console.log(`Selling ${sellAmount} ${this.account.currency}`);
-      // let sellOrder = await this.account.sell(
-      //   sellAmount,
-      //   this.paymentMethod,
-      //   false
-      // );
-      console.log(sellOrder);
+      let sellOrder = await this.account.sell(
+        sellAmount,
+        this.paymentMethod,
+        false
+      );
 
-      // await sellOrder.commit();
-      // this.resetSell();
+      await sellOrder.commit();
+      await this.paymentMethod.updateRecord();
+      await this.paymentAccount.updateRecord();
+      this.resetSell();
     }
   }
 

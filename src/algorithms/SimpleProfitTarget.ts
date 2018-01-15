@@ -1,18 +1,19 @@
-const Decorators = require("../Decorators");
+const MongooseDecorators = require("../decorators/Mongoose");
 const Algorithm = require("./Algorithm");
 const CoinbaseResources = require("../resources/coinbase");
 const Buyer = require("./Buyer");
 const Seller = require("./Seller");
 const _ = require("lodash");
 
-@Decorators.model("SimpleProfitTarget")
+@MongooseDecorators.model("SimpleProfitTarget")
 class SimpleProfitTarget extends Algorithm {
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   buyer;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   seller;
 
+  pendingLastTransaction = false;
 
   async updateData(simpleProfitTargetData) {
     this.buyer = await Buyer.new(simpleProfitTargetData);
@@ -23,27 +24,38 @@ class SimpleProfitTarget extends Algorithm {
   }
 
   async run() {
-    let transactions = await this.buyer.account.transactions();
-    let lastBuy = _.find(transactions, {
-      type: "buy",
-      status: "completed",
-    });
-    let lastTransaction = transactions[0];
-    // console.log(lastTransaction && lastTransaction.status, lastTransaction && lastTransaction.type);
+    try {
+      let transactions = await this.buyer.account.transactions();
+      let lastBuy = _.find(transactions, {
+        type: "buy",
+        status: "completed",
+      });
+      let lastTransaction = transactions[0];
 
-    // wait for previous transaction to complete
-    if (!lastTransaction || lastTransaction.status === "completed") {
-      if (!lastTransaction || lastTransaction.type === "sell") {
-        // just sold, buy more
-        if (await this.buyer.run()) {
-          await this.buyer.buy();
+      // wait for previous transaction to complete
+      if (!lastTransaction || lastTransaction.status === "completed") {
+        if (this.pendingLastTransaction) {
+          await this.buyer.updateAccounts();
+          this.pendingLastTransaction = true;
         }
-      } else {
-        // just bought, sell them
-        if (await this.seller.run(lastBuy)) {
-          await this.seller.sell();
+
+        if (!lastTransaction || lastTransaction.type === "sell") {
+          // just sold, buy more
+          if (await this.buyer.run()) {
+            await this.buyer.buy();
+          }
+        } else {
+          // just bought, sell them
+          if (await this.seller.run(lastBuy)) {
+            await this.seller.sell();
+          }
         }
+      } else if (lastTransaction && lastTransaction.status === "pending") {
+        this.pendingLastTransaction = true;
       }
+    } catch(err) {
+      console.log(err);
+      return null;
     }
   }
 }

@@ -1,22 +1,22 @@
-const Decorators = require("../Decorators");
+const MongooseDecorators = require("../decorators/Mongoose");
 const Api = require("./Api");
 const crypto = require("crypto");
 
-@Decorators.model("CoinbaseApi")
+@MongooseDecorators.model("CoinbaseApi")
 class CoinbaseApi extends Api {
-  @Decorators.string()
+  @MongooseDecorators.string()
   apiVersion;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   key;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   secret;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   passphrase;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   signatureDigest;
 
   updateData(coinbaseApiData) {

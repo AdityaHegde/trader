@@ -1,32 +1,32 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const CoinbaseResource = require("./CoinbaseResource");
 
-@Decorators.resource("deposit")
-@Decorators.resource_path("deposits")
-@Decorators.model("CoinbaseDeposit")
+@CoinbaseResource.resource("deposit")
+@CoinbaseResource.resource_path("deposits")
+@MongooseDecorators.model("CoinbaseDeposit")
 class Deposit extends CoinbaseResource {
-  @Decorators.string()
+  @MongooseDecorators.string()
   status;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   payment_method;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   transaction;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   amount;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   subtotal;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   fee;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   committed;
 
-  @Decorators.date()
+  @MongooseDecorators.date()
   payout_at;
 
   updateData(depositData) {

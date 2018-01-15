@@ -1,14 +1,15 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const Deposit = require("./Deposit");
+const CoinbaseResource = require("./CoinbaseResource");
 
-@Decorators.resource("buy")
-@Decorators.resource_path("buys")
-@Decorators.model("CoinbaseBuy")
+@CoinbaseResource.resource("buy")
+@CoinbaseResource.resource_path("buys")
+@MongooseDecorators.model("CoinbaseBuy")
 class Buy extends Deposit {
-  @Decorators.number()
+  @MongooseDecorators.number()
   total;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   instant;
 
   updateData(buyData) {

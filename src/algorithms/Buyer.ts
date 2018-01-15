@@ -1,34 +1,34 @@
-const Decorators = require("../Decorators");
+const MongooseDecorators = require("../decorators/Mongoose");
 const Base = require("../Base");
 const CoinbaseResources = require("../resources/coinbase");
 
-@Decorators.model("Buyer")
+@MongooseDecorators.model("Buyer")
 class Buyer extends Base {
-  @Decorators.number()
+  @MongooseDecorators.number()
   maxBuyPercentage;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   minBuyPercentage;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   buyPercentageDecrementAmout;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   buyPercentageDecrementInterval;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   buyHardThreshold;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   spendAmout;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   account;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   paymentMethod;
 
-  @Decorators.objectId()
+  @MongooseDecorators.objectId()
   paymentAccount;
 
   updateData(buyerData) {
@@ -53,6 +53,8 @@ class Buyer extends Base {
   async run() {
     let buyPrice = await CoinbaseResources.Price.getBuyPrice(this.account, this.paymentMethod);
     let buyPriceThreshold = this.buyHardThreshold * (1 - this.buyPercentage / 100);
+
+    console.log(`Looking to buy ${this.account.currency} currently at ${buyPrice.amount} for ${buyPriceThreshold}`);
 
     if (buyPrice.amount <= buyPriceThreshold) {
       return true;
@@ -80,7 +82,7 @@ class Buyer extends Base {
   }
 
   async buy() {
-    let spendAmout = his.getSpendAmount();
+    let spendAmout = this.getSpendAmount();
     if (spendAmout > 0) {
       console.log(`Buying ${this.account.currency} at ${spendAmout}`);
       let buyOrder = await this.account.buyWith(
@@ -90,6 +92,8 @@ class Buyer extends Base {
       );
 
       await buyOrder.commit();
+      await this.paymentMethod.update();
+      await this.paymentAccount.update();
       this.resetBuy();
     }
   }
@@ -97,6 +101,10 @@ class Buyer extends Base {
   resetBuy() {
     this.buyPercentage = this.maxBuyPercentage;
     this.lastBuyDecrement = 0;
+  }
+
+  async updateAccounts() {
+    await this.account.update();
   }
 }
 

@@ -89,6 +89,10 @@ describe("Simple Sell and Buy tests", () => {
     await CoinbaseResources.Sell.remove({});
     sandbox.resetBehavior();
     sandbox.resetHistory();
+
+    requestMock.mockPath("/v2/accounts/test-btc-account", require("../data/btc-account.json"));
+    requestMock.mockPath("/v2/accounts/test-usd-account", require("../data/usd-account.json"));
+    requestMock.mockPath("/v2/payment-methods/test-usd-payment", require("../data/usd-payment.json"));
   });
 
   describe("No previous transaction", async () => {
@@ -99,13 +103,13 @@ describe("Simple Sell and Buy tests", () => {
     beforeEach(async () => {
       requestMock.mockPrice("BTC-USD", "buy", 1300);
       requestMock.mockPrice("BTC-USD", "sell", 1350);
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: []
       });
-      requestMock.mockPath("/v2/accounts/test-account/buys", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/buys", {
         data: require("../data/btc-buy.json")
       });
-      requestMock.mockPath("/v2/accounts/test-account/buys/test-buy/commit", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/buys/test-buy/commit", {
         data: require("../data/btc-buy.json")
       });
     });
@@ -150,10 +154,6 @@ describe("Simple Sell and Buy tests", () => {
       sandbox.clock.tick(1000);
       await algo.run();
 
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
-        data: [require("../data/btc-buy-transaction.json")]
-      });
-
       sinon.assert.calledOnce(buyer_run_spy);
       sinon.assert.calledOnce(buyer_buy_spy);
       (algo.buyer.buyPercentage).should.be.equal(20);
@@ -161,7 +161,7 @@ describe("Simple Sell and Buy tests", () => {
     });
 
     it("Buyer.run not called anymore", async () => {
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: [require("../data/btc-buy-transaction.json")]
       });
 
@@ -184,15 +184,15 @@ describe("Simple Sell and Buy tests", () => {
     beforeEach(async () => {
       requestMock.mockPrice("BTC-USD", "buy", 1600);
       requestMock.mockPrice("BTC-USD", "sell", 1650);
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: [_.merge({}, require("../data/btc-buy-transaction.json"), {
           "status": "completed",
         })]
       });
-      requestMock.mockPath("/v2/accounts/test-account/sells", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/sells", {
         data: require("../data/btc-sell.json")
       });
-      requestMock.mockPath("/v2/accounts/test-account/sells/test-sell/commit", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/sells/test-sell/commit", {
         data: require("../data/btc-sell.json")
       });
     });
@@ -237,7 +237,7 @@ describe("Simple Sell and Buy tests", () => {
       sandbox.clock.tick(1000);
       await algo.run();
 
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: [
           require("../data/btc-sell-transaction.json"),
           _.merge({}, require("../data/btc-buy-transaction.json"), {
@@ -253,7 +253,7 @@ describe("Simple Sell and Buy tests", () => {
     });
 
     it("Seller.run not called anymore", async () => {
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: [
           require("../data/btc-sell-transaction.json"),
           _.merge({}, require("../data/btc-buy-transaction.json"), {
@@ -273,7 +273,7 @@ describe("Simple Sell and Buy tests", () => {
     });
 
     it("Seller transaction is completed", async () => {
-      requestMock.mockPath("/v2/accounts/test-account/transactions", {
+      requestMock.mockPath("/v2/accounts/test-btc-account/transactions", {
         data: [
           _.merge({}, require("../data/btc-sell-transaction.json"), {
             "status": "completed"

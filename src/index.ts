@@ -55,14 +55,14 @@ async function init() {
     maxBuyPercentage: 10,
     minBuyPercentage: 0,
     buyPercentageDecrementAmout: 2,
-    buyPercentageDecrementInterval: 24 * 60,
+    buyPercentageDecrementInterval: 24 * 60 * 60,
     buyHardThreshold: 14000,
     spendAmout: 1250,
 
     maxProfit: 20,
     minProfit: 16,
     profitDecrementAmout: 2,
-    profitDecrementInterval: 24 * 60,
+    profitDecrementInterval: 24 * 60 * 60,
 
     account: btcAccount,
     paymentMethod: usdPayment,
@@ -72,14 +72,14 @@ async function init() {
     maxBuyPercentage: 10,
     minBuyPercentage: 0,
     buyPercentageDecrementAmout: 2,
-    buyPercentageDecrementInterval: 24 * 60,
+    buyPercentageDecrementInterval: 24 * 60 * 60,
     buyHardThreshold: 2400,
     spendAmout: 1250,
 
     maxProfit: 20,
     minProfit: 14,
     profitDecrementAmout: 2,
-    profitDecrementInterval: 24 * 60,
+    profitDecrementInterval: 24 * 60 * 60,
 
     account: bchAccount,
     paymentMethod: usdPayment,
@@ -88,8 +88,8 @@ async function init() {
 }
 
 async function iteration() {
-  btcAlgo.run();
-  bchAlgo.run();
+  await btcAlgo.run();
+  await bchAlgo.run();
 }
 
 async function run() {

@@ -1,4 +1,4 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const CoinbaseResource = require("./CoinbaseResource");
 const Address = require("./Address");
 const Buy = require("./Buy");
@@ -7,23 +7,23 @@ const Deposit = require("./Deposit");
 const Withdraw = require("./Withdraw");
 const Transaction = require("./Transaction");
 
-@Decorators.resource("account")
-@Decorators.resource_path("/v2/accounts")
-@Decorators.model("CoinbaseAccount")
+@CoinbaseResource.resource("account")
+@CoinbaseResource.resource_path("/v2/accounts")
+@MongooseDecorators.model("CoinbaseAccount")
 class Account extends CoinbaseResource {
-  @Decorators.string()
+  @MongooseDecorators.string()
   name;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   primary;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   type;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   currency;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   balance;
 
   updateData(accountData) {

@@ -22,6 +22,14 @@ class BaseModel extends Base {
     return this.new(response.data);
   }
 
+  async update() {
+    let response = await this.constructor.api.sendRequest(
+      this.resource_path,
+      "GET"
+    );
+    return this.updateData(response);
+  }
+
   static async create(data, parent) {
     let response = await this.api.sendRequest(
       (parent ? parent.resource_path + "/" : "") + this.resource_path,

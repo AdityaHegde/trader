@@ -1,50 +1,50 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const CoinbaseResource = require("./CoinbaseResource");
 
-@Decorators.resource("transaction")
-@Decorators.resource_path("transactions")
-@Decorators.model("CoinbaseTransaction")
+@CoinbaseResource.resource("transaction")
+@CoinbaseResource.resource_path("transactions")
+@MongooseDecorators.model("CoinbaseTransaction")
 class Transaction extends CoinbaseResource {
-  @Decorators.string()
+  @MongooseDecorators.string()
   type;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   status;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   amount;
 
-  @Decorators.number()
+  @MongooseDecorators.number()
   native_amount;
 
-  // @Decorators.string()
+  // @MongooseDecorators.string()
   // description;
 
-  @Decorators.boolean()
+  @MongooseDecorators.boolean()
   instant_exchange;
 
-  // @Decorators.string()
+  // @MongooseDecorators.string()
   // details;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   network;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   to;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   from;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   buy;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   sell;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   address;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   application;
 
 

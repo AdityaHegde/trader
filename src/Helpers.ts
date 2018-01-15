@@ -26,6 +26,18 @@ class Helpers {
       });
     });
   }
+
+  static promisify(fun, context, ...args) {
+    return new Promise((resolve, reject) => {
+      fun.call(context, ...args, function(err, ...results) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(...results);
+        }
+      });
+    });
+  }
 }
 
 module.exports = Helpers;

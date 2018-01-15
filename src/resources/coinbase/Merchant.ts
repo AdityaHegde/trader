@@ -1,29 +1,30 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
+const CoinbaseResource = require("./CoinbaseResource");
 const BaseModel = require("../BaseModel");
 
-@Decorators.resource("merchant")
-@Decorators.resource_path("/v2/merchants")
-@Decorators.model("CoinbaseMerchant")
+@CoinbaseResource.resource("merchant")
+@CoinbaseResource.resource_path("/v2/merchants")
+@MongooseDecorators.model("CoinbaseMerchant")
 class Merchant extends BaseModel {
-  @Decorators.string()
+  @MongooseDecorators.string()
   name;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   address;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   website_url;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   avatar_url;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   logo_url;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   cover_image_url;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   resource_path;
 
   updateData(merchantData) {

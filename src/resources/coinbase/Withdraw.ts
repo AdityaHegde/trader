@@ -1,9 +1,10 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
+const CoinbaseResource = require("./CoinbaseResource");
 const Deposit = require("./Deposit");
 
-@Decorators.resource("withdraw")
-@Decorators.resource_path("/v2/withdraws")
-@Decorators.model("CoinbaseWithdraw")
+@CoinbaseResource.resource("withdraw")
+@CoinbaseResource.resource_path("/v2/withdraws")
+@MongooseDecorators.model("CoinbaseWithdraw")
 class Withdraw extends Deposit {
 }
 

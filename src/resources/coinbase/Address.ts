@@ -1,18 +1,18 @@
-const Decorators = require("../../Decorators");
+const MongooseDecorators = require("../../decorators/Mongoose");
 const CoinbaseResource = require("./CoinbaseResource");
 const Transaction = require("./Transaction");
 
-@Decorators.resource("address")
-@Decorators.resource_path("addresses")
-@Decorators.model("CoinbaseAddress")
+@CoinbaseResource.resource("address")
+@CoinbaseResource.resource_path("addresses")
+@MongooseDecorators.model("CoinbaseAddress")
 class Address extends CoinbaseResource {
-  @Decorators.string()
+  @MongooseDecorators.string()
   address;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   name;
 
-  @Decorators.string()
+  @MongooseDecorators.string()
   network;
 
   updateData(addressData) {

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const Decorators = require("./Decorators");
+const MongooseDecorators = require("./decorators/Mongoose");
 const _ = require("lodash");
 
 class Base {
-  @Decorators.string()
+  @MongooseDecorators.string()
   id;
 
   // __mongooseModel = null;
